@@ -1,9 +1,9 @@
 package com.example.albumsapp.feature.album.di
 
-import com.example.albumsapp.feature.album.store.AlbumIdStore
 import com.example.albumsapp.feature.album.repository.PhotosRepository
 import com.example.albumsapp.feature.album.repository.PhotosRepositoryImpl
 import com.example.albumsapp.feature.album.service.PhotosService
+import com.example.albumsapp.feature.album.store.AlbumStore
 import com.example.albumsapp.feature.album.uesCase.SearchPhotosUseCase
 import dagger.Module
 import dagger.Provides
@@ -17,8 +17,8 @@ import javax.inject.Singleton
 object AlbumModule {
     @Provides
     @Singleton
-    fun provideSharedId(): AlbumIdStore {
-        return AlbumIdStore(0)
+    fun provideSharedId(): AlbumStore {
+        return AlbumStore(null)
     }
     @Provides
     fun providePhotoService(retrofit: Retrofit): PhotosService {

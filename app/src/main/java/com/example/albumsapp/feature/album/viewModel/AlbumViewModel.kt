@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.albumsapp.core.result.ResultState
 import com.example.albumsapp.feature.album.dataModel.Photo
-import com.example.albumsapp.feature.album.store.AlbumIdStore
+import com.example.albumsapp.feature.album.store.AlbumStore
 import com.example.albumsapp.feature.album.uesCase.SearchPhotosUseCase
 import com.example.albumsapp.feature.photo.store.PhotoStore
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AlbumViewModel@Inject constructor(private val searchPhotosUseCase : SearchPhotosUseCase,
-                                        private val albumIdStore: AlbumIdStore,
+                                        private val albumStore: AlbumStore,
                                         private val photoStore: PhotoStore
 ) : ViewModel() {
     private val _photoState = MutableStateFlow<ResultState<List<Photo>>> (ResultState.Loading)
@@ -27,13 +27,19 @@ class AlbumViewModel@Inject constructor(private val searchPhotosUseCase : Search
      fun fetchPhoto(query:String) {
         viewModelScope.launch {
             _photoState.value = ResultState.Loading
-            searchPhotosUseCase.searchPhotos(albumIdStore.albumID, query).collect { photoResult ->
-                _photoState.value = photoResult
+            albumStore.album?.id?.let {
+                searchPhotosUseCase.searchPhotos(it, query).collect { photoResult ->
+                    _photoState.value = photoResult
 
+                }
             }
+
         }
     }
     fun storeImage(photo: Photo){
         photoStore.photo = photo
+    }
+    fun getAlbumName():String{
+        return albumStore.album?.title ?: ""
     }
 }

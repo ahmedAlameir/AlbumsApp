@@ -64,7 +64,7 @@ fun ProfileScreen(
                     DisplayUserProfile(user.data, modifier)
                     Spacer(modifier = Modifier.height(8.dp))
                     DisplayAlbums(albumsState, modifier){album ->
-                        viewModel.storeId(id = album.id)
+                        viewModel.storeId(album = album)
                         navigate()
                     }
                 }

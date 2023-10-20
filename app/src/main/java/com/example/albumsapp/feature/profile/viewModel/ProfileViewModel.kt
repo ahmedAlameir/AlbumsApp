@@ -3,7 +3,7 @@ package com.example.albumsapp.feature.profile.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.albumsapp.core.result.ResultState
-import com.example.albumsapp.feature.album.store.AlbumIdStore
+import com.example.albumsapp.feature.album.store.AlbumStore
 import com.example.albumsapp.feature.profile.dataModel.Album
 import com.example.albumsapp.feature.profile.dataModel.User
 import com.example.albumsapp.feature.profile.repository.AlbumsRepository
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel@Inject constructor( private val getUserWithRandomIdUseCase: GetUserWithRandomIdUseCase,
                                            private val albumsRepository : AlbumsRepository,
-                                           private val albumIdStore: AlbumIdStore
+                                           private val albumStore: AlbumStore
     ) : ViewModel() {
     private val _userState = MutableStateFlow<ResultState<User>>(ResultState.Loading)
     val userState: StateFlow<ResultState<User>> = _userState
@@ -44,8 +44,8 @@ class ProfileViewModel@Inject constructor( private val getUserWithRandomIdUseCas
             }
         }
     }
-    fun storeId(id:Int){
-        albumIdStore.albumID = id
+    fun storeId(album:Album){
+        albumStore.album = album
     }
 
 }

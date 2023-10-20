@@ -69,7 +69,7 @@ fun AlbumScreen(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
 
-                Text("Album",
+                Text(viewModel.getAlbumName(),
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                 )
